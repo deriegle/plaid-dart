@@ -1,13 +1,13 @@
 import 'package:meta/meta.dart';
 
-class Balances {
+class AccountBalances {
   double available;
   double current;
   double limit;
   String iso_currency_code;
   String official_currency_code;
 
-  Balances({
+  AccountBalances({
     this.available,
     this.current,
     this.limit,
@@ -15,8 +15,8 @@ class Balances {
     this.official_currency_code,
   });
 
-  factory Balances.fromJson(Map<String, dynamic> json) {
-    return Balances(
+  factory AccountBalances.fromJson(Map<String, dynamic> json) {
+    return AccountBalances(
       available: json['available'],
       current: json['current'],
       iso_currency_code: json['iso_currency_code'],
@@ -33,7 +33,7 @@ class Account {
   String official_name;
   String subtype;
   String type;
-  Balances balances;
+  AccountBalances balances;
 
   Account({
     @required this.account_id,
@@ -53,7 +53,7 @@ class Account {
       official_name: json['official_name'],
       subtype: json['subtype'],
       type: json['type'],
-      balances: Balances.fromJson(json['balances']),
+      balances: AccountBalances.fromJson(json['balances']),
     );
   }
 }

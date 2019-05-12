@@ -6,8 +6,6 @@ import 'package:http/http.dart' as http;
 
 enum PlaidEnvironment { development, production, sandbox }
 
-class Plaid {}
-
 class PlaidClient {
   http.Client httpClient;
   String secret;
