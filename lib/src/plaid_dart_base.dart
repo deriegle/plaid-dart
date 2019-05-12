@@ -1,5 +1,7 @@
 import 'package:meta/meta.dart';
 import 'dart:convert';
+import 'package:plaid_dart/src/models/item.dart';
+import 'package:plaid_dart/src/models/account.dart';
 import 'package:http/http.dart' as http;
 
 enum PlaidEnvironment { development, production, sandbox }
@@ -49,10 +51,56 @@ class PlaidClient {
     return response['access_token'];
   }
 
+  Future<Item> updateItemWebhook(
+      String accessToken, String updatedWebhook) async {
+    final response = await _sendRequest('/item/webhook/update',
+        {'access_token': accessToken, 'webhook': updatedWebhook});
+
+    return Item.fromJson(response['item']);
+  }
+
+  Future<String> invalidateAccessToken(String accessToken) async {
+    final response = await _sendRequest(
+        '/item/access_token/invalidate', {'access_token': accessToken});
+
+    return response['new_access_token'];
+  }
+
+  Future<bool> removeItem(String accessToken) async {
+    final response =
+        await _sendRequest('/item/remove', {'access_token': accessToken});
+
+    return response['removed'];
+  }
+
+  Future<Item> getItem(String accessToken) async {
+    final response =
+        await _sendRequest('/item/get', {'access_token': accessToken});
+
+    return Item.fromJson(response['item']);
+  }
+
+  Future<GetAccountsResponse> getAccounts(String accessToken) async {
+    final response =
+        await _sendRequest('/accounts/get', {'access_token': accessToken});
+    List<Account> accounts = [];
+
+    if (response['accounts'] is List) {
+      var parsedJsonAccounts =
+          List<Map<String, dynamic>>.from(response['accounts']);
+
+      accounts =
+          parsedJsonAccounts.map((json) => Account.fromJson(json)).toList();
+    }
+
+    return GetAccountsResponse(
+        item: Item.fromJson(response['item']), accounts: accounts);
+  }
+
   Future<Map<String, dynamic>> _sendRequest(
       String request_url, Map<String, dynamic> body) async {
     final response =
-        await httpClient.post('$url/$request_url', body: _encodeBody(body));
+        await httpClient.post('$url$request_url', body: _encodeBody(body));
 
     return json.decode(response.body);
   }
@@ -60,4 +108,11 @@ class PlaidClient {
   String _encodeBody(dynamic body) {
     return json.encode(body);
   }
+}
+
+class GetAccountsResponse {
+  Item item;
+  List<Account> accounts;
+
+  GetAccountsResponse({this.item, this.accounts});
 }
