@@ -207,7 +207,7 @@ void main() {
                           'current': 2333.00,
                           'limit': 1500.00,
                           'iso_currency_code': '\$',
-                          'official_currency_code': 'USD',
+                          'unofficial_currency_code': 'USD',
                         }
                       },
                       {
@@ -221,7 +221,7 @@ void main() {
                           'current': 3200.00,
                           'limit': 1500.00,
                           'iso_currency_code': '\$',
-                          'official_currency_code': 'USD',
+                          'unofficial_currency_code': 'USD',
                         }
                       },
                     ]
