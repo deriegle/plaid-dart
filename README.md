@@ -29,3 +29,7 @@ main() async {
   var item = await plaidClient.getItem('my_access_token');
 }
 ```
+
+**Common Links**
+- [Plaid docs](https://plaid.com/docs/)
+- [`plaid-node` package](https://github.com/plaid/plaid-node)
