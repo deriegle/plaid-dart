@@ -45,8 +45,10 @@ class PlaidClient {
     return TokensApi.invalidateAccessToken(accessToken, _sendRequest);
   }
 
-  Future<Item> updateItemWebhook(String accessToken, String updatedWebhook) async {
-    return await ItemsApi.updateItemWebhook(accessToken, updatedWebhook, _sendRequest);
+  Future<Item> updateItemWebhook(
+      String accessToken, String updatedWebhook) async {
+    return await ItemsApi.updateItemWebhook(
+        accessToken, updatedWebhook, _sendRequest);
   }
 
   Future<bool> removeItem(String accessToken) async {
@@ -61,8 +63,10 @@ class PlaidClient {
     return AccountsApi.getAccounts(accessToken, _sendRequest);
   }
 
-  Future<Map<String, dynamic>> _sendRequest(String request_url, Map<String, dynamic> body) async {
-    final response = await httpClient.post('$url$request_url', body: _encodeBody(body));
+  Future<Map<String, dynamic>> _sendRequest(
+      String request_url, Map<String, dynamic> body) async {
+    final response =
+        await httpClient.post('$url$request_url', body: _encodeBody(body));
 
     return json.decode(response.body);
   }
@@ -71,4 +75,3 @@ class PlaidClient {
     return json.encode(body);
   }
 }
-

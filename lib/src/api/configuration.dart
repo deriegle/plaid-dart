@@ -7,7 +7,7 @@ class ApiConfiguration {
   String path;
   Map<String, dynamic> body;
 
-  ApiConfiguration({ @required this.path, this.body, @required this.request });
+  ApiConfiguration({@required this.path, this.body, @required this.request});
 
   dynamic handle() async => await this.request(path, body);
 }

@@ -47,7 +47,7 @@ class AccountType {
 
   /// other - Non-specified account type
   static const OTHER = AccountType('other');
-  
+
   factory AccountType.fromString(String str) {
     return AccountType(str);
   }
