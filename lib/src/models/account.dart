@@ -1,38 +1,6 @@
 import 'package:meta/meta.dart';
-
-class AccountBalances {
-  /// Total amount of funds in account
-  double available;
-
-  /// The amount of funds available for withdrawal from an account.
-  double current;
-
-  /// The limit for the account, primarily populated by 'credit' type accounts
-  double limit;
-
-  /// The ISO currency code for the account
-  String iso_currency_code;
-
-  String unofficial_currency_code;
-
-  AccountBalances({
-    this.available,
-    this.current,
-    this.limit,
-    this.iso_currency_code,
-    this.unofficial_currency_code,
-  });
-
-  factory AccountBalances.fromJson(Map<String, dynamic> json) {
-    return AccountBalances(
-      available: json['available'],
-      current: json['current'],
-      iso_currency_code: json['iso_currency_code'],
-      limit: json['limit'],
-      unofficial_currency_code: json['unofficial_currency_code'],
-    );
-  }
-}
+import 'package:plaid_dart/src/models/account/balances.dart';
+import 'package:plaid_dart/src/models/account/type.dart';
 
 /// Plaid Account
 /// [Plaid Docs Link](plaid.com/docs/#accounts)
@@ -49,21 +17,8 @@ class Account {
   /// The official name given by the Financial Institute.
   String official_name;
 
-  /// Account Subtypes
-  /// brokerage - 401a, 401k, 403b, 457b, 529, brokerage, cash isa, education savings account
-  /// credit - credit card, paypal, rewards
-  /// depository - cd, checking, savings, money market
-  /// loan - auto, commercial, construction, home
-  /// other - cash management, mutual fund, safe deposit
-  String subtype;
-
-  /// Account Type
-  /// brokerage - Brokerage account
-  /// credit - Credit card
-  /// depository - Checking or savings accounts
-  /// loan - Loan account
-  /// other - Non-specified account type
-  String type;
+  AccountSubType subtype;
+  AccountType type;
   AccountBalances balances;
 
   Account({
@@ -82,8 +37,8 @@ class Account {
       mask: json['mask'],
       name: json['name'],
       official_name: json['official_name'],
-      subtype: json['subtype'],
-      type: json['type'],
+      subtype: AccountSubType.fromString(json['subtype']),
+      type: AccountType.fromString(json['type']),
       balances: AccountBalances.fromJson(json['balances']),
     );
   }

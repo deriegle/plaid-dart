@@ -2,6 +2,9 @@
 .dart_tool/
 .packages
 
+# VSCode files
+.vscode
+
 # Idea files
 .idea
 
