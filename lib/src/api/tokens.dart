@@ -26,7 +26,7 @@ class TokensApi {
 
     var response = await api.handle();
 
-    return response['access_token'] as String;
+    return response['public_token'] as String;
   }
 
   static Future<String> invalidateAccessToken(
