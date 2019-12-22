@@ -1,3 +1,5 @@
+import 'package:meta/meta.dart';
+
 class TransactionLocation {
   String address;
   String city;
@@ -42,4 +44,32 @@ class Transaction {
   String pendingTransactionId;
   String transactionId;
   TransactionType transactionType;
+
+  Transaction({
+    @required this.accountId,
+    this.amount,
+    this.isoCurrencyCode,
+    this.unofficialCurrencyCode,
+    this.category,
+    this.categoryId,
+    this.date,
+    this.location,
+    this.name,
+    this.pending,
+    this.pendingTransactionId,
+    this.transactionId,
+    this.transactionType,
+  });
+
+  factory Transaction.fromJson(Map<String, dynamic> json) {
+    return Transaction(
+      accountId: json['account_id'],
+      amount: json['amount'],
+      isoCurrencyCode: json['iso_currency_code'],
+      unofficialCurrencyCode: json['unofficial_currency_code'],
+      category: List.from(json['category'] ?? []),
+      categoryId: json['category_id'],
+      date: DateTime.parse(json['date']),
+    );
+  }
 }
