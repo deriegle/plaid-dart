@@ -8,6 +8,28 @@ class TransactionLocation {
   String country;
   double lat;
   double lon;
+
+  TransactionLocation({
+    this.address,
+    this.city,
+    this.region,
+    this.postalCode,
+    this.country,
+    this.lat,
+    this.lon,
+  });
+
+  factory TransactionLocation.fromJson(Map<String, dynamic> json) {
+    return TransactionLocation(
+      address: json['address'],
+      city: json['city'],
+      region: json['region'],
+      postalCode: json['postal_code'],
+      country: json['country'],
+      lat: json['lat'],
+      lon: json['lon'],
+    );
+  }
 }
 
 class TransactionType {
@@ -28,6 +50,22 @@ class TransactionType {
 
   // unresolved: transactions that do not fit into the other three types.
   static const UNRESOLVED = TransactionType('unresolved');
+
+  factory TransactionType.fromString(String str) {
+    switch (str) {
+      case 'place':
+        return TransactionType.PLACE;
+      case 'special':
+        return TransactionType.SPECIAL;
+      case 'digital':
+        return TransactionType.DIGITAL;
+      case 'unresolved':
+        return TransactionType.UNRESOLVED;
+      default:
+        throw AssertionError(
+            'String must be a defined constant in TransactionType');
+    }
+  }
 }
 
 class Transaction {
@@ -70,6 +108,12 @@ class Transaction {
       category: List.from(json['category'] ?? []),
       categoryId: json['category_id'],
       date: DateTime.parse(json['date']),
+      pending: json['pending'] as bool,
+      pendingTransactionId: json['pending_transaction_id'],
+      transactionId: json['transaction_id'],
+      transactionType: TransactionType.fromString(json['transaction_type']),
+      name: json['name'],
+      location: TransactionLocation.fromJson(json['location']),
     );
   }
 }
