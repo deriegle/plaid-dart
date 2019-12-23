@@ -6,3 +6,12 @@
 ## 0.0.2
 
 - Fix formatting and include packages
+
+## 0.1.0
+
+- Add Transaction parsing
+- Add Transaction API to get Transactions from Plaid
+
+## 0.1.1
+
+- Add changelog for 0.1.0

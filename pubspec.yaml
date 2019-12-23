@@ -1,6 +1,6 @@
 name: plaid_dart
 description: A Plaid client package for dart
-version: 0.1.0
+version: 0.1.1
 homepage: https://github.com/deriegle/plaid-dart
 
 environment:
