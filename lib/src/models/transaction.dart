@@ -20,14 +20,19 @@ class TransactionLocation {
   });
 
   factory TransactionLocation.fromJson(Map<String, dynamic> json) {
+    if (json['address'] == null &&
+        (json['lon'] == null && json['lat'] == null)) {
+      return null;
+    }
+
     return TransactionLocation(
       address: json['address'],
       city: json['city'],
       region: json['region'],
       postalCode: json['postal_code'],
       country: json['country'],
-      lat: json['lat'],
-      lon: json['lon'],
+      lat: double.tryParse(json['lat'].toString() ?? ''),
+      lon: double.tryParse(json['lon'].toString() ?? ''),
     );
   }
 }
@@ -52,6 +57,10 @@ class TransactionType {
   static const UNRESOLVED = TransactionType('unresolved');
 
   factory TransactionType.fromString(String str) {
+    if (str == null) {
+      return null;
+    }
+
     switch (str) {
       case 'place':
         return TransactionType.PLACE;

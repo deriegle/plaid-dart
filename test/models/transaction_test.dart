@@ -52,4 +52,97 @@ void main() {
     expect(transaction.location.lat, isNull);
     expect(transaction.location.lon, isNull);
   });
+
+  test('parses transaction location correctly', () {
+    Map<String, dynamic> json = {
+      "account_id": "vokyE5Rn6vHKqDLRXEn5fne7LwbKPLIXGK98d",
+      "amount": 2307.21,
+      "iso_currency_code": "USD",
+      "unofficial_currency_code": null,
+      "category": ["Shops", "Computers and Electronics"],
+      "category_id": "19013000",
+      "date": "2017-01-29",
+      "location": {
+        "address": null,
+        "city": "San Francisco",
+        "region": "CA",
+        "postal_code": "94108",
+        "country": "US",
+        "lat": null,
+        "lon": null
+      },
+      "name": "Apple Store",
+      "payment_meta": {},
+      "pending": false,
+      "pending_transaction_id": null,
+      "account_owner": null,
+      "transaction_id": "lPNjeW1nR6CDn5okmGQ6hEpMo4lLNoSrzqDje",
+      "transaction_type": "place"
+    };
+
+    var transaction = Transaction.fromJson(json);
+
+    expect(transaction.location, isNull);
+
+    json = {
+      "account_id": "vokyE5Rn6vHKqDLRXEn5fne7LwbKPLIXGK98d",
+      "amount": 2307.21,
+      "iso_currency_code": "USD",
+      "unofficial_currency_code": null,
+      "category": ["Shops", "Computers and Electronics"],
+      "category_id": "19013000",
+      "date": "2017-01-29",
+      "location": {
+        "address": null,
+        "city": "San Francisco",
+        "region": "CA",
+        "postal_code": "94108",
+        "country": "US",
+        "lat": 83,
+        "lon": -45
+      },
+      "name": "Apple Store",
+      "payment_meta": {},
+      "pending": false,
+      "pending_transaction_id": null,
+      "account_owner": null,
+      "transaction_id": "lPNjeW1nR6CDn5okmGQ6hEpMo4lLNoSrzqDje",
+      "transaction_type": "place"
+    };
+
+    transaction = Transaction.fromJson(json);
+
+    expect(transaction.location.lat, 83);
+    expect(transaction.location.lon, -45);
+
+    json = {
+      "account_id": "vokyE5Rn6vHKqDLRXEn5fne7LwbKPLIXGK98d",
+      "amount": 2307.21,
+      "iso_currency_code": "USD",
+      "unofficial_currency_code": null,
+      "category": ["Shops", "Computers and Electronics"],
+      "category_id": "19013000",
+      "date": "2017-01-29",
+      "location": {
+        "address": null,
+        "city": "San Francisco",
+        "region": "CA",
+        "postal_code": "94108",
+        "country": "US",
+        "lat": 83.2020,
+        "lon": -45.3555
+      },
+      "name": "Apple Store",
+      "payment_meta": {},
+      "pending": false,
+      "pending_transaction_id": null,
+      "account_owner": null,
+      "transaction_id": "lPNjeW1nR6CDn5okmGQ6hEpMo4lLNoSrzqDje",
+      "transaction_type": "place"
+    };
+
+    transaction = Transaction.fromJson(json);
+    expect(transaction.location.lat, 83.2020);
+    expect(transaction.location.lon, -45.3555);
+  });
 }
