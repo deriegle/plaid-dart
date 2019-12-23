@@ -66,12 +66,16 @@ class PlaidClient {
 
   Future<GetTransactionsResponse> getTransactions(
     String accessToken,
-    String secret, {
+    String secret,
+    DateTime startDate,
+    DateTime endDate, {
     GetTransactionOptions options,
   }) async {
     return TransactionsApi.getTransactions(
       accessToken,
       secret,
+      startDate,
+      endDate,
       _sendRequest,
       options: options,
     );

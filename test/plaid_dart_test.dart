@@ -243,11 +243,15 @@ void main() {
         test('calls api with the correct path and parameters', () async {
           final accessToken = 'my_access_token';
           final secret = 'my_custom_secret';
+          final startDate = DateTime.parse('2019-01-01');
+          final endDate = DateTime.parse('2019-02-10');
 
           when(httpClient.post('https://sandbox.plaid.com/transactions/get',
               body: json.encode({
                 'access_token': accessToken,
                 'secret': secret,
+                'start_date': '2019-1-1',
+                'end_date': '2019-2-10',
               }))).thenAnswer((_) => Future.value(http.Response(
               json.encode({
                 'request_id': '1929395839',
@@ -313,7 +317,8 @@ void main() {
               }),
               200)));
 
-          final result = await client.getTransactions(accessToken, secret);
+          final result = await client.getTransactions(
+              accessToken, secret, startDate, endDate);
 
           expect(result.transactions, hasLength(2));
         });

@@ -24,11 +24,17 @@ class GetTransactionOptions {
 
 class TransactionsApi {
   static Future<GetTransactionsResponse> getTransactions(
-      String accessToken, String secret, ApiRequestFunction request,
+      String accessToken,
+      String secret,
+      DateTime startDate,
+      DateTime endDate,
+      ApiRequestFunction request,
       {GetTransactionOptions options}) async {
     Map<String, dynamic> body = {
       'access_token': accessToken,
       'secret': secret,
+      'start_date': formatForServer(startDate),
+      'end_date': formatForServer(endDate),
     };
 
     if (options != null) {
@@ -75,5 +81,9 @@ class TransactionsApi {
     }
 
     return transactions;
+  }
+
+  static String formatForServer(DateTime date) {
+    return '${date.year}-${date.month}-${date.day}';
   }
 }
