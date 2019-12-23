@@ -242,10 +242,12 @@ void main() {
       group('getTransactions', () {
         test('calls api with the correct path and parameters', () async {
           final accessToken = 'my_access_token';
+          final secret = 'my_custom_secret';
 
           when(httpClient.post('https://sandbox.plaid.com/transactions/get',
               body: json.encode({
                 'access_token': accessToken,
+                'secret': secret,
               }))).thenAnswer((_) => Future.value(http.Response(
               json.encode({
                 'request_id': '1929395839',
@@ -311,7 +313,7 @@ void main() {
               }),
               200)));
 
-          final result = await client.getTransactions(accessToken);
+          final result = await client.getTransactions(accessToken, secret);
 
           expect(result.transactions, hasLength(2));
         });

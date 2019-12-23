@@ -64,8 +64,17 @@ class PlaidClient {
     return AccountsApi.getAccounts(accessToken, _sendRequest);
   }
 
-  Future<GetTransactionsResponse> getTransactions(String accessToken) async {
-    return TransactionsApi.getTransactions(accessToken, _sendRequest);
+  Future<GetTransactionsResponse> getTransactions(
+    String accessToken,
+    String secret, {
+    GetTransactionOptions options,
+  }) async {
+    return TransactionsApi.getTransactions(
+      accessToken,
+      secret,
+      _sendRequest,
+      options: options,
+    );
   }
 
   Future<Map<String, dynamic>> _sendRequest(
