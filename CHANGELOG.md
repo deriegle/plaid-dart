@@ -15,3 +15,7 @@
 ## 0.1.1
 
 - Add changelog for 0.1.0
+
+## 0.1.2
+
+- Export Transaction model for use in client applications
