@@ -242,7 +242,6 @@ void main() {
       group('getTransactions', () {
         test('calls api with the correct path and parameters', () async {
           final accessToken = 'my_access_token';
-          final secret = 'my_custom_secret';
           final startDate = DateTime.parse('2019-01-01');
           final endDate = DateTime.parse('2019-02-10');
 
@@ -318,7 +317,10 @@ void main() {
               200)));
 
           final result = await client.getTransactions(
-              accessToken, secret, startDate, endDate);
+            accessToken,
+            startDate,
+            endDate,
+          );
 
           expect(result.transactions, hasLength(2));
         });
