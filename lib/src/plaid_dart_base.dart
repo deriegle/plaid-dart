@@ -2,6 +2,7 @@ import 'package:meta/meta.dart';
 import 'package:plaid_dart/src/api/accounts.dart';
 import 'package:plaid_dart/src/api/items.dart';
 import 'package:plaid_dart/src/api/tokens.dart';
+import 'package:plaid_dart/src/api/transactions.dart';
 import 'dart:convert';
 import 'package:plaid_dart/src/models/item.dart';
 import 'package:http/http.dart' as http;
@@ -61,6 +62,23 @@ class PlaidClient {
 
   Future<GetAccountsResponse> getAccounts(String accessToken) async {
     return AccountsApi.getAccounts(accessToken, _sendRequest);
+  }
+
+  Future<GetTransactionsResponse> getTransactions(
+    String accessToken,
+    String secret,
+    DateTime startDate,
+    DateTime endDate, {
+    GetTransactionOptions options,
+  }) async {
+    return TransactionsApi.getTransactions(
+      accessToken,
+      secret,
+      startDate,
+      endDate,
+      _sendRequest,
+      options: options,
+    );
   }
 
   Future<Map<String, dynamic>> _sendRequest(

@@ -1,3 +1,5 @@
+import 'package:meta/meta.dart';
+
 class TransactionLocation {
   String address;
   String city;
@@ -6,6 +8,33 @@ class TransactionLocation {
   String country;
   double lat;
   double lon;
+
+  TransactionLocation({
+    this.address,
+    this.city,
+    this.region,
+    this.postalCode,
+    this.country,
+    this.lat,
+    this.lon,
+  });
+
+  factory TransactionLocation.fromJson(Map<String, dynamic> json) {
+    if (json['address'] == null &&
+        (json['lon'] == null && json['lat'] == null)) {
+      return null;
+    }
+
+    return TransactionLocation(
+      address: json['address'],
+      city: json['city'],
+      region: json['region'],
+      postalCode: json['postal_code'],
+      country: json['country'],
+      lat: double.tryParse(json['lat'].toString() ?? ''),
+      lon: double.tryParse(json['lon'].toString() ?? ''),
+    );
+  }
 }
 
 class TransactionType {
@@ -26,6 +55,26 @@ class TransactionType {
 
   // unresolved: transactions that do not fit into the other three types.
   static const UNRESOLVED = TransactionType('unresolved');
+
+  factory TransactionType.fromString(String str) {
+    if (str == null) {
+      return null;
+    }
+
+    switch (str) {
+      case 'place':
+        return TransactionType.PLACE;
+      case 'special':
+        return TransactionType.SPECIAL;
+      case 'digital':
+        return TransactionType.DIGITAL;
+      case 'unresolved':
+        return TransactionType.UNRESOLVED;
+      default:
+        throw AssertionError(
+            'String must be a defined constant in TransactionType');
+    }
+  }
 }
 
 class Transaction {
@@ -42,4 +91,38 @@ class Transaction {
   String pendingTransactionId;
   String transactionId;
   TransactionType transactionType;
+
+  Transaction({
+    @required this.accountId,
+    this.amount,
+    this.isoCurrencyCode,
+    this.unofficialCurrencyCode,
+    this.category,
+    this.categoryId,
+    this.date,
+    this.location,
+    this.name,
+    this.pending,
+    this.pendingTransactionId,
+    this.transactionId,
+    this.transactionType,
+  });
+
+  factory Transaction.fromJson(Map<String, dynamic> json) {
+    return Transaction(
+      accountId: json['account_id'],
+      amount: json['amount'],
+      isoCurrencyCode: json['iso_currency_code'],
+      unofficialCurrencyCode: json['unofficial_currency_code'],
+      category: List.from(json['category'] ?? []),
+      categoryId: json['category_id'],
+      date: DateTime.parse(json['date']),
+      pending: json['pending'] as bool,
+      pendingTransactionId: json['pending_transaction_id'],
+      transactionId: json['transaction_id'],
+      transactionType: TransactionType.fromString(json['transaction_type']),
+      name: json['name'],
+      location: TransactionLocation.fromJson(json['location']),
+    );
+  }
 }

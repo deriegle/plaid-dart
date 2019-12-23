@@ -238,6 +238,91 @@ void main() {
           expect(response.accounts.last.balances.available, 3000.00);
         });
       });
+
+      group('getTransactions', () {
+        test('calls api with the correct path and parameters', () async {
+          final accessToken = 'my_access_token';
+          final secret = 'my_custom_secret';
+          final startDate = DateTime.parse('2019-01-01');
+          final endDate = DateTime.parse('2019-02-10');
+
+          when(httpClient.post('https://sandbox.plaid.com/transactions/get',
+              body: json.encode({
+                'access_token': accessToken,
+                'secret': secret,
+                'start_date': '2019-1-1',
+                'end_date': '2019-2-10',
+              }))).thenAnswer((_) => Future.value(http.Response(
+              json.encode({
+                'request_id': '1929395839',
+                'item': {
+                  'available_products': [],
+                  'billed_products': [],
+                  'institution_id': '9399393',
+                  'item_id': '1993993',
+                  'webhook': 'https://google.com',
+                },
+                'transactions': [
+                  {
+                    "account_id": "vokyE5Rn6vHKqDLRXEn5fne7LwbKPLIXGK98d",
+                    "amount": 2307.21,
+                    "iso_currency_code": "USD",
+                    "unofficial_currency_code": null,
+                    "category": ["Shops", "Computers and Electronics"],
+                    "category_id": "19013000",
+                    "date": "2017-01-29",
+                    "location": {
+                      "address": "300 Post St",
+                      "city": "San Francisco",
+                      "region": "CA",
+                      "postal_code": "94108",
+                      "country": "US",
+                      "lat": null,
+                      "lon": null
+                    },
+                    "name": "Apple Store",
+                    "payment_meta": {},
+                    "pending": false,
+                    "pending_transaction_id": null,
+                    "account_owner": null,
+                    "transaction_id": "lPNjeW1nR6CDn5okmGQ6hEpMo4lLNoSrzqDje",
+                    "transaction_type": "place"
+                  },
+                  {
+                    "account_id": "vokyE5Rn6vHKqDLRXEn5fne7LwbKPLIXGK98d",
+                    "amount": 2307.21,
+                    "iso_currency_code": "USD",
+                    "unofficial_currency_code": null,
+                    "category": ["Shops", "Computers and Electronics"],
+                    "category_id": "19013000",
+                    "date": "2017-01-29",
+                    "location": {
+                      "address": "300 Post St",
+                      "city": "San Francisco",
+                      "region": "CA",
+                      "postal_code": "94108",
+                      "country": "US",
+                      "lat": null,
+                      "lon": null
+                    },
+                    "name": "Apple Store",
+                    "payment_meta": {},
+                    "pending": false,
+                    "pending_transaction_id": null,
+                    "account_owner": null,
+                    "transaction_id": "lPNjeW1nR6CDn5okmGQ6hEpMo4lLNoSrzqDje",
+                    "transaction_type": "place"
+                  },
+                ],
+              }),
+              200)));
+
+          final result = await client.getTransactions(
+              accessToken, secret, startDate, endDate);
+
+          expect(result.transactions, hasLength(2));
+        });
+      });
     });
 
     group('development environment', () {
